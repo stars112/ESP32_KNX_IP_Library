@@ -41,6 +41,25 @@ float ESPKNXIP::data_to_2byte_float(uint8_t *data)
 	uint8_t  expo = (data[1] & 0b01111000) >> 3;
 	int16_t mant = ((data[1] & 0b10000111) << 8) | data[2];
 	return 0.01f * mant * pow(2, expo);
+    // KNX DPT9: data[0] = MSB, data[1] = LSB
+    uint8_t msb = data[0];
+    uint8_t lsb = data[1];
+
+    // Sign-Bit (Bit 7 MSB)
+    int sign = (msb & 0x80) ? -1 : 1;
+
+    // Exponent (4 Bit, Bits 3–6 MSB)
+    int exponent = (msb >> 3) & 0x0F;
+
+    // Mantisse (11 Bit, Bits 0–2 MSB + LSB)
+    int16_t mantissa = ((msb & 0x07) << 8) | lsb;
+
+    // Negative Mantisse im 2er-Komplement korrigieren
+    if (mantissa & 0x0400) // Bit 10 = Vorzeichen in Mantisse
+        mantissa |= 0xF800; // Vorzeichen erweitern
+
+    // Wert berechnen (0,01 * Mantisse * 2^Exponent) und Sign anwenden
+    return sign * 0.01f * mantissa * powf(2, exponent);
 }
 
 time_of_day_t ESPKNXIP::data_to_3byte_time(uint8_t *data)

@@ -139,6 +139,37 @@ void ESPKNXIP::send_2byte_float(address_t const &receiver, knx_command_type_t ct
 	msb |= 0x80;
 	uint8_t buf[] = {0x00, (uint8_t)msb, (uint8_t)m};
 	send(receiver, ct, 3, buf);
+    uint8_t data[2];
+
+    // Vorzeichen
+    int sign = (val < 0.0f) ? 1 : 0;
+    if (val < 0.0f) val = -val;
+
+    // Mantisse & Exponent
+    int exponent = 0;
+    int mantissa = round(val / 0.01f);
+
+    while (mantissa > 2047) // Mantisse max 11 Bit
+    {
+        mantissa >>= 1;
+        exponent++;
+    }
+
+    // Negative Mantisse im 2er-Komplement
+    if (sign)
+        mantissa = (~mantissa + 1) & 0x07FF;
+
+    // KNX 2-Byte Float
+    data[0] = (sign << 7) | ((exponent & 0x0F) << 3) | ((mantissa >> 8) & 0x07); // MSB
+    data[1] = mantissa & 0xFF;                                                    // LSB
+
+    // **3-Byte Puffer für Library-Send()**, damit APCI korrekt gesetzt wird
+    uint8_t buf[3];
+    buf[0] = (ct & 0x03) << 6; // APCI-Bits
+    buf[1] = data[0];           // MSB
+    buf[2] = data[1];           // LSB
+
+    send(receiver, KNX_CT_WRITE, 3, buf);
 }
 
 void ESPKNXIP::send_3byte_time(address_t const &receiver, knx_command_type_t ct, uint8_t weekday, uint8_t hours, uint8_t minutes, uint8_t seconds)

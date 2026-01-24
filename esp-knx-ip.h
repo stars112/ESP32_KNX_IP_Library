@@ -50,10 +50,10 @@
 
 #ifdef ESP32
     #include <WiFi.h>
-    #include <WebServer.h>
+    
 #else
     #include <ESP8266WiFi.h>
-    #include <ESP8266WebServer.h>
+    
 #endif
 
 #include <EEPROM.h>
@@ -370,13 +370,7 @@ class ESPKNXIP {
     ESPKNXIP();
     void load();
     void start();
-    #ifdef ESP32
-        void start(WebServer *srv);
-    #else
-        void start(ESP8266WebServer *srv);
-    #endif
     void loop();
-
     void save_to_eeprom();
     void restore_from_eeprom();
 
@@ -530,12 +524,6 @@ class ESPKNXIP {
 
     callback_assignment_id_t __callback_register_assignment(address_t address, callback_id_t id);
     void __callback_delete_assignment(callback_assignment_id_t id);
-    
-    #ifdef ESP32
-        WebServer *server;
-    #else
-        ESP8266WebServer *server;
-    #endif
 
     address_t physaddr;
     WiFiUDP udp;

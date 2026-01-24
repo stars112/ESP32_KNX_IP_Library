@@ -1,4 +1,4 @@
-# ESP32-KNX-IP
+# ESP32-KNX-IP Without WEBSERVER
 
 This is a ported fork of the original ESP8266 by @envy, all kudos to him
 https://github.com/envy/esp-knx-ip

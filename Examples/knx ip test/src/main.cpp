@@ -62,7 +62,7 @@ void setup() {
   // Do not call knx.load() for static config, it will try to load config from EEPROM which we don't have here
 
   // Init WiFi
-  WiFi.hostname("env_knx_test");
+  WiFi.hostname("knx_IP_test");
   WiFi.begin(ssid, pass);
 
   Serial.println("");
@@ -111,4 +111,5 @@ void loop() {
 
   delay(50);
 }
+
 

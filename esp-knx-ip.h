@@ -1,6 +1,6 @@
 /**
  * esp-knx-ip library for KNX/IP communication on an ESP8266
- * Author: Nico Weichbrodt <envy>
+ * Author: Nico Weichbrodt <envy> / Fix -> Schuma
  * License: MIT
  */
 
@@ -551,3 +551,4 @@ class ESPKNXIP {
 extern ESPKNXIP knx;
 
 #endif
+

@@ -343,5 +343,15 @@ void ESPKNXIP::__loop_knx()
     }
 }
 
+/**
+ * Neuer READ Helper für externe GAs
+ */
+void ESPKNXIP::send_ext(address_t const &receiver)
+{
+    uint8_t data[1] = {0x00};  // TPCI: READ, APCI automatisch auf READ
+    send(receiver, KNX_CT_READ, 1, data);  // Länge = 1, Daten = [0x00]
+}
+
+
 // Global "singleton" object
 ESPKNXIP knx;

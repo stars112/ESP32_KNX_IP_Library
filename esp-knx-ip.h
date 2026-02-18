@@ -426,6 +426,8 @@ class ESPKNXIP {
     void send_4byte_uint(address_t const &receiver, knx_command_type_t ct, uint32_t val);
     void send_4byte_float(address_t const &receiver, knx_command_type_t ct, float val);
     void send_14byte_string(address_t const &receiver, knx_command_type_t ct, const char *val);
+    void send_ext(address_t const &receiver);// Neuer READ Helper für externe GAs
+
 
     void write_1bit(address_t const &receiver, uint8_t bit) { send_1bit(receiver, KNX_CT_WRITE, bit); }
     void write_2bit(address_t const &receiver, uint8_t twobit) { send_2bit(receiver, KNX_CT_WRITE, twobit); }

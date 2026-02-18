@@ -1,6 +1,6 @@
 /**
  * esp-knx-ip library for KNX/IP communication on an ESP8266/ESP32
- * Author: Nico Weichbrodt <envy>
+ * Author: Nico Weichbrodt <envy> Fix -> Schuma
  * License: MIT
  */
 
@@ -355,3 +355,4 @@ void ESPKNXIP::send_ext(address_t const &receiver)
 
 // Global "singleton" object
 ESPKNXIP knx;
+
